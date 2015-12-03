@@ -3,8 +3,9 @@
 if aws s3 cp $1 s3.sh ; then
   chmod +x s3.sh
 
-  export output=$(./s3.sh $ARGS 2>&1)
-  export status=$?
+  _output=`./s3.sh $ARGS 2>&1`;_status=$?
+  export output=$_output
+  export status=$_status
 else
   export output="File $1 not found"
   export status="255"
