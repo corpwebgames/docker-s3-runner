@@ -1,9 +1,12 @@
 #!/bin/bash
 
-if aws s3 cp $1 s3.sh ; then
-  chmod +x s3.sh
+path=$1
+file=$(basename $path)
 
-  _output=`./s3.sh $ARGS 2>&1`;_status=$?
+if aws s3 cp $1 $file ; then
+  chmod +x $file
+
+  _output=`./$file $ARGS 2>&1`;_status=$?
   export output=$_output
   export status=$_status
 else
