@@ -1,14 +1,17 @@
 #!/bin/bash
-#NEWLINE=$'\n'
 
-aws s3 cp $1 s3.sh
-chmod +x s3.sh
+if aws s3 cp $1 s3.sh ; then
+  chmod +x s3.sh
 
-export output=$(./s3.sh $ARGS)
-export status=$?
-export id=$ID
+  export output=$(./s3.sh $ARGS 2>&1)
+  export status=$?
+else
+  export output="File $1 not found"
+  export status="255"
+fi
 
-#message="{\"id\":\""$ID"\", \"status\":\""$status"\", \"output\":\""$output"\"}"
+  export id=$ID
+
 
 message=`python <<END
 import sys, os, json
