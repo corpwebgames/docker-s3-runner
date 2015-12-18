@@ -30,7 +30,7 @@ file=$(basename $path)
 if aws s3 cp $1 $file ; then
   chmod +x $file
 
-  send "" "running"
+  send "" "Running"
   _output=`./$file $ARGS 2>&1`;_status=$?
   send $_output $_status
 else
