@@ -2,6 +2,7 @@
 
 export AWS_DEFAULT_REGION=us-east-1
 export id=$ID
+export category=$CATEGORY
 
 send(){
 export output=$1
@@ -12,6 +13,7 @@ import sys, os, json
 
 data = {}
 data['id'] = os.environ['id']
+data['category'] = os.environ['category']
 data['status'] = os.environ['status']
 data['output'] = os.environ['output']
 json_data = json.dumps(data)
@@ -30,9 +32,9 @@ file=$(basename $path)
 if aws s3 cp $1 $file ; then
   chmod +x $file
 
-  send "" "Running"
+  send "" "RUNNING"
   _output=`./$file $ARGS 2>&1`;_status=$?
-  send $_output $_status
+  send "$_output" "$_status"
 else
   send "File $1 not found" "255"
 fi
