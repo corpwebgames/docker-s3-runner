@@ -36,7 +36,7 @@ if aws s3 cp $1 $file ; then
 #  _output=`./$file $ARGS 2>&1`;_status=$?
   ./$file $ARGS 2>&1 | tee $file-$ID.out
   _status=${PIPESTATUS[0]}
-  _output=`cat $file-$ID.out`
+  _output=`cat $file-$ID.out | head -c65535`
   send "$_output" "$_status"
 
   times=$(date +"%H%M")
