@@ -34,7 +34,12 @@ if aws s3 cp $1 $file ; then
 
   send "" "RUNNING"
 #  _output=`./$file $ARGS 2>&1`;_status=$?
-  ./$file $ARGS 2>&1 | tee $file-$ID.out
+if [ "$INTERPRETER" ]; then 
+  $INTERPRETER $file $ARGS 2>&1 | tee $file-$ID.out;
+else
+  ./$file $ARGS 2>&1 | tee $file-$ID.out;
+fi
+  
   _status=${PIPESTATUS[0]}
   _output=`cat $file-$ID.out | head -c65535`
   send "$_output" "$_status"
