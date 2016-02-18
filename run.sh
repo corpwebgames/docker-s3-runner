@@ -32,20 +32,24 @@ file=$(basename $path)
 if aws s3 cp $1 $file ; then
   chmod +x $file
 
-  send "" "RUNNING"
+  #send "" "RUNNING"
 #  _output=`./$file $ARGS 2>&1`;_status=$?
-if [ "$INTERPRETER" ]; then 
-  $INTERPRETER $file $ARGS 2>&1 | tee $file-$ID.out;
-else
-  ./$file $ARGS 2>&1 | tee $file-$ID.out;
-fi
+  if [ "$INTERPRETER" ]; then 
+    $INTERPRETER $file $ARGS 2>&1 | tee $file-$ID.out;
+  else
+    ./$file $ARGS 2>&1 | tee $file-$ID.out;
+  fi
   
   _status=${PIPESTATUS[0]}
   _output=`cat $file-$ID.out | head -c65535`
-  send "$_output" "$_status"
+  #send "$_output" "$_status"
 
   times=$(date +"%H%M")
   if [ "$S3_LOG_BUCKET" ]; then aws s3 cp $file-$ID.out s3://$S3_LOG_BUCKET/docker/$CATEGORY/$file-$ID-$times.out; fi
+
+  exit $_status
+
 else
-  send "File $1 not found" "255"
+  #send "File $1 not found" "255"
+  exit 255
 fi
