@@ -9,3 +9,4 @@ Executes script from s3 path and notify via sns
                -e ID='<id>' \
                -e S3_LOG_BUCKET='<bucket name>'
                dpatriot/docker-s3-runner s3://s3-path`
+
