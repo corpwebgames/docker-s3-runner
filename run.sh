@@ -39,7 +39,6 @@ if aws s3 cp $1 $file ; then
     if [ -z "$KEYSTORE_SECRET" ]; then
       export KEYSTORE_SECRET=changeit
     fi
-    #export KEYSTORE_PATH=s3://webgames-scripts/jceks/secure.keystore
   fi
   if [ "$INTERPRETER" ]; then 
     $INTERPRETER $file $ARGS 2>&1 | tee $file-$ID.out;
