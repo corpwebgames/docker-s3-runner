@@ -32,8 +32,15 @@ file=$(basename $path)
 if aws s3 cp $1 $file ; then
   chmod +x $file
 
-  #send "" "RUNNING"
-#  _output=`./$file $ARGS 2>&1`;_status=$?
+  if [ "$KEYSTORE_PATH" ]; then
+    if aws s3 cp $KEYSTORE_PATH . ; then
+      export KEYSTORE_KEY=$(basename $KEYSTORE_PATH)
+    fi
+    if [ -z "$KEYSTORE_SECRET" ]; then
+      export KEYSTORE_SECRET=changeit
+    fi
+    #export KEYSTORE_PATH=s3://webgames-scripts/jceks/secure.keystore
+  fi
   if [ "$INTERPRETER" ]; then 
     $INTERPRETER $file $ARGS 2>&1 | tee $file-$ID.out;
   else
