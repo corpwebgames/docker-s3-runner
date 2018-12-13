@@ -40,6 +40,13 @@ if aws s3 cp $1 $file ; then
       export KEYSTORE_SECRET=changeit
     fi
   fi
+  if [ "$LIB_PATH" ]; then 
+    if aws s3 cp $LIB_PATH lib.zip ; then
+      unzip -o lib.zip
+    else
+      echo "File path $LIB_PATH not found"
+    fi
+  fi
   if [ "$INTERPRETER" ]; then 
     $INTERPRETER $file $ARGS 2>&1 | tee $file-$ID.out;
   else
