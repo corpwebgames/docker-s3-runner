@@ -1,4 +1,4 @@
-FROM webgames/awscli-java8
+FROM webgames/awscli-java8:develop
 
 
 ADD run.sh /opt/
